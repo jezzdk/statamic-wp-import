@@ -1,0 +1,27 @@
+{
+    "name": "jezzdk/statamic-wp-import",
+    "autoload": {
+        "psr-4": {
+            "Jezzdk\\StatamicWpImport\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jess Stopa"
+        }
+    ],
+    "support": {
+        "email": "jess@stopa.dk"
+    },
+    "extra": {
+        "statamic": {
+            "name": "Statamic WP Import",
+            "description": "Import Wordpress content into Statamic"
+        },
+        "laravel": {
+            "providers": [
+                "Jezzdk\\StatamicWpImport\\ServiceProvider"
+            ]
+        }
+    }
+}
