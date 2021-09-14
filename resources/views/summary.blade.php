@@ -15,7 +15,7 @@
             <div>
                 <template v-if="summary && !importing && !imported && !importFailed">
                     <div>
-                        <div class="card mb-3" v-if="showPages">
+                        <div class="card mb-3" v-if="showPagesSection">
                             <h2>Pages</h2>
                             <div class="form-group">
                                 <div class="py-1.5 px-2 text-sm w-full rounded-md bg-yellow border border-yellow-dark mb-3" role="alert" v-if="hasDuplicates(summary.pages)">
@@ -48,7 +48,7 @@
                             </div>
                         </div>
 
-                        <div v-if="showCollections" v-for="(collection, collectionName) in summary.collections" class="card mb-3">
+                        <div v-if="showCollectionsSection" v-for="(collection, collectionName) in summary.collections" class="card mb-3">
                             <h2>Collection: @{{ collectionName }}</h2>
                             <div class="form-group pb-0">
                                 <label>Route</label>
@@ -85,7 +85,7 @@
                             </div>
                         </div>
 
-                        <div v-if="showTaxonomies" v-for="(taxonomy, taxonomyName) in summary.taxonomies" class="card mb-3">
+                        <div v-if="showTaxonomiesSection" v-for="(taxonomy, taxonomyName) in summary.taxonomies" class="card mb-3">
                             <h2>Taxonomy: @{{ taxonomyName }}</h2>
                             <div class="form-group pb-0">
                                 <label>Route</label>

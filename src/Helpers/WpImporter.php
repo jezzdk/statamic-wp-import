@@ -73,19 +73,6 @@ class WpImporter
             ];
         }
 
-        foreach ($prepared['globals'] as $set => $vars) {
-            $variables = [];
-
-            foreach ($vars as $key => $value) {
-                $variables[$key] = [
-                    'key' => $key,
-                    '_checked' => true,
-                ];
-            }
-
-            $summary['globals'][$set] = compact('set', 'variables');
-        }
-
         return $summary;
     }
 

@@ -26,12 +26,10 @@ class Preparer
             'collections' => collect(),
             'entries' => collect(),
             'pages' => collect($this->data['pages']),
-            'globals' => collect()
         ];
 
         $this->createTaxonomies();
         $this->createCollections();
-        $this->createGlobals();
 
         $this->filterMetaData();
 
@@ -180,31 +178,5 @@ class Preparer
     private function isTaxonomyField($key)
     {
         return $this->migration['taxonomies']->has($key);
-    }
-
-    /**
-     * Create globals
-     *
-     * @return void
-     */
-    private function createGlobals()
-    {
-        if (!isset($this->data['globals'])) {
-            return;
-        }
-
-        $globals = $this->data['globals'];
-
-        // If there are globals in "settings", we'll merge them in with "global"
-        // instead of creating a set named "settings. That could get weird.
-        if ($settings = array_get($globals, 'settings')) {
-            $globals['global'] = array_merge(
-                array_get($globals, 'global', []),
-                $settings
-            );
-            unset($globals['settings']);
-        }
-
-        $this->migration['globals'] = $globals;
     }
 }

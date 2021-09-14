@@ -20,7 +20,6 @@ export default {
             showAllPages: false,
             showCollections: [],
             showTaxonomies: [],
-            showGlobals: [],
         }
     },
 
@@ -28,13 +27,13 @@ export default {
         totalPages: function () {
             return this.summary.pages && Object.keys(this.summary.pages).length;
         },
-        showPages: function () {
+        showPagesSection: function () {
             return this.summary && this.summary.pages && !this.importing && !this.imported && !this.importFailed
         },
-        showCollections: function () {
+        showCollectionsSection: function () {
             return this.summary && this.summary.collections
         },
-        showTaxonomies: function () {
+        showTaxonomiesSection: function () {
             return this.summary && this.summary.taxonomies
         },
         totalEntries: function () {
@@ -44,8 +43,6 @@ export default {
 
     mounted() {
         this.summary = window.ImportSummary
-
-        console.debug(this.summary)
     },
 
     methods: {
@@ -57,7 +54,6 @@ export default {
             this.importError = null
 
             this.$progress.start('wp-import')
-
 
             fetch(cp_url('wp-import/import'), {
                 method: 'POST',
@@ -148,21 +144,6 @@ export default {
 
         shouldShowTaxonomy: function (taxonomy) {
             return _.includes(this.showTaxonomies, taxonomy);
-        },
-
-        showGlobal: function (global) {
-            this.showGlobals.push(global);
-            _.uniq(this.showGlobals);
-        },
-
-        hideGlobal: function (hidden) {
-            this.showGlobals = _.reject(this.showGlobals, function (g) {
-                return g === hidden;
-            })
-        },
-
-        shouldShowGlobal: function (global) {
-            return _.includes(this.showGlobals, global);
         },
 
         calculateTotalEntries: function () {
