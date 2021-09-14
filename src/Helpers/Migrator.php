@@ -181,7 +181,7 @@ class Migrator
                 ]));
 
                 if (config('statamic-wp-import.download_images')) {
-                    $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection);
+                    $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection, $slug);
 
                     if ($asset) {
                         $entry->set('featured_image', $asset->path());
@@ -220,7 +220,7 @@ class Migrator
             ]));
 
             if (config('statamic-wp-import.download_images')) {
-                $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages');
+                $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages', $slug);
 
                 if ($asset) {
                     $page->set('featured_image', $asset->path());
@@ -237,7 +237,7 @@ class Migrator
      * @param string|null $url
      * @return Asset|bool
      */
-    private function downloadAsset(string $url = null, string $container): Asset|bool
+    private function downloadAsset(string $url = null, string $collection, string $slug): Asset|bool
     {
         if (!$url) {
             return false;
@@ -251,7 +251,7 @@ class Migrator
 
             $assetContainer = AssetContainer::findByHandle('assets');
 
-            $asset = $assetContainer->makeAsset("imports/{$container}/{$originalImageName}")
+            $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}")
                 ->upload(
                     new UploadedFile(
                         Storage::path($tempFile),
