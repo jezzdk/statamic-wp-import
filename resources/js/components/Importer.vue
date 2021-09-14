@@ -112,6 +112,18 @@ export default {
             });
         },
 
+        uncheckAll: function(items) {
+            _.each(items, (item) => {
+                item._checked = false;
+            });
+        },
+
+        checkAll: function(items) {
+            _.each(items, (item) => {
+                item._checked = true;
+            });
+        },
+
         size: function (obj) {
             return _.size(obj);
         },

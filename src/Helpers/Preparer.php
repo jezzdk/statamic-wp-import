@@ -31,7 +31,9 @@ class Preparer
         $this->createTaxonomies();
         $this->createCollections();
 
-        $this->filterMetaData();
+        if (config('statamic-wp-import.exclude_underscore_data')) {
+            $this->filterMetaData();
+        }
 
         return $this->migration;
     }

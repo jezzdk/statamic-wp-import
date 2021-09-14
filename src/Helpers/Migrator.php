@@ -2,6 +2,7 @@
 
 namespace Jezzdk\StatamicWpImport\Helpers;
 
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Assets\Asset;
 use Statamic\Facades\AssetContainer;
@@ -179,10 +180,12 @@ class Migrator
                     'slug' => $slug
                 ]));
 
-                $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection);
+                if (config('statamic-wp-import.download_images')) {
+                    $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection);
 
-                if ($asset) {
-                    $entry->set('featured_image', $asset->path());
+                    if ($asset) {
+                        $entry->set('featured_image', $asset->path());
+                    }
                 }
 
                 $entry->save();
@@ -216,10 +219,12 @@ class Migrator
                 'slug' => $slug
             ]));
 
-            $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages');
+            if (config('statamic-wp-import.download_images')) {
+                $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages');
 
-            if ($asset) {
-                $page->set('image', $asset->path());
+                if ($asset) {
+                    $page->set('featured_image', $asset->path());
+                }
             }
 
             $page->save();
@@ -238,23 +243,27 @@ class Migrator
             return false;
         }
 
-        $image = file_get_contents($url);
-        $originalImageName = basename($url);
+        try {
+            $image = @file_get_contents($url);
+            $originalImageName = basename($url);
 
-        Storage::put($tempFile = 'temp', $image);
+            Storage::put($tempFile = 'temp', $image);
 
-        $assetContainer = AssetContainer::findByHandle('assets');
+            $assetContainer = AssetContainer::findByHandle('assets');
 
-        $asset = $assetContainer->makeAsset("imports/{$container}/{$originalImageName}")
-            ->upload(
-                new UploadedFile(
-                    Storage::path($tempFile),
-                    $originalImageName,
-                )
-            );
+            $asset = $assetContainer->makeAsset("imports/{$container}/{$originalImageName}")
+                ->upload(
+                    new UploadedFile(
+                        Storage::path($tempFile),
+                        $originalImageName,
+                    )
+                );
 
-        $asset->save();
+            $asset->save();
 
-        return $asset;
+            return $asset;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

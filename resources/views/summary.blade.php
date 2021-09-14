@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <div class="py-1.5 px-2 text-sm w-full rounded-md bg-yellow border border-yellow-dark mb-3" role="alert" v-if="hasDuplicates(summary.pages)">
                                     Duplicate items found
-                                    <span class="text-xs ml-2">(<a @click.prevent="uncheckDuplicates(summary.pages)" href="#" class="text-blue hover:underline">Uncheck duplicates</a>)</span>
+                                    <span class="text-xs ml-1">(<a @click.prevent="uncheckDuplicates(summary.pages)" href="#" class="text-blue hover:underline">Uncheck duplicates</a>)</span>
                                 </div>
 
                                 <label>Entries</label>
@@ -30,21 +30,24 @@
                                     <a @click="showAllPages = false" v-else>Hide</a>
                                 </p>
 
-                                <table class="w-full mt-2 mb-4" v-if="showAllPages">
-                                    <thead>
-                                        <th class="text-left uppercase text-grey-60 text-xs px-2 py-1"></th>
-                                        <th class="text-left uppercase text-grey-60 text-xs px-2 py-1">URL</th>
-                                    </thead>
-                                    <tbody class="border-t border-grey-60">
-                                        <tr v-for="(page, i) in summary.pages">
-                                            <td class="px-2 py-1 w-4" :class="{ 'bg-yellow': page.exists }">
-                                                <input type="checkbox" v-model="page._checked" id="page-@{{ i }}" />
-                                                <label for="page-@{{ i }}"></label>
-                                            </td>
-                                            <td class="px-2 py-1 text-xs" :class="{ 'bg-yellow': page.exists }">@{{ page.url }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div v-show="showAllPages">
+                                    <a @click.prevent="uncheckAll(summary.pages)" href="#" class="text-xs text-blue hover:underline">Uncheck all</a> / <a @click.prevent="checkAll(summary.pages)" href="#" class="text-xs text-blue hover:underline">Check all</a>
+                                    <table class="w-full mt-2 mb-4">
+                                        <thead>
+                                            <th class="text-left uppercase text-grey-60 text-xs px-2 py-1"></th>
+                                            <th class="text-left uppercase text-grey-60 text-xs px-2 py-1">URL</th>
+                                        </thead>
+                                        <tbody class="border-t border-grey-60">
+                                            <tr v-for="(page, i) in summary.pages">
+                                                <td class="px-2 py-1 w-4" :class="{ 'bg-yellow': page.exists }">
+                                                    <input type="checkbox" v-model="page._checked" id="page-@{{ i }}" />
+                                                    <label for="page-@{{ i }}"></label>
+                                                </td>
+                                                <td class="px-2 py-1 text-xs" :class="{ 'bg-yellow': page.exists }">@{{ page.url }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
@@ -57,7 +60,7 @@
                             <div class="form-group">
                                 <div class="py-1.5 px-2 text-sm w-full rounded-md bg-yellow border border-yellow-dark mb-3" role="alert" v-if="hasDuplicates(collection.entries)">
                                     Duplicate items found
-                                    <span class="text-xs ml-2">(<a @click.prevent="uncheckDuplicates(collection.entries)" href="#" class="text-blue hover:underline">Uncheck duplicates</a>)</span>
+                                    <span class="text-xs ml-1">(<a @click.prevent="uncheckDuplicates(collection.entries)" href="#" class="text-blue hover:underline">Uncheck duplicates</a>)</span>
                                 </div>
 
                                 <label>Entries</label>
@@ -67,21 +70,24 @@
                                     <a href="#" @click.prevent="hideCollection(collectionName)" v-else>Hide</a>
                                 </p>
 
-                                <table class="w-full mt-2 mb-4" v-show="shouldShowCollection(collectionName)">
-                                    <thead>
-                                        <th class="text-left uppercase text-grey-60 text-xs px-2 py-1"></th>
-                                        <th class="text-left uppercase text-grey-60 text-xs px-2 py-1">Slug</th>
-                                    </thead>
-                                    <tbody class="border-t border-grey-60">
-                                        <tr v-for="(entry, slug) in collection.entries">
-                                            <td class="px-2 py-1 w-4" :class="{ 'bg-yellow': entry.exists }">
-                                                <input type="checkbox" v-model="entry._checked" id="c-@{{ collectionName }}-@{{ slug }}" />
-                                                <label for="c-@{{ collectionName }}-@{{ slug }}"></label>
-                                            </td>
-                                            <td class="px-2 py-1 text-xs" :class="{ 'bg-yellow': entry.exists }">@{{ entry.slug }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div v-show="shouldShowCollection(collectionName)">
+                                    <a @click.prevent="uncheckAll(collection.entries)" href="#" class="text-xs text-blue hover:underline">Uncheck all</a> / <a @click.prevent="checkAll(collection.entries)" href="#" class="text-xs text-blue hover:underline">Check all</a>
+                                    <table class="w-full mt-2 mb-4">
+                                        <thead>
+                                            <th class="text-left uppercase text-grey-60 text-xs px-2 py-1"></th>
+                                            <th class="text-left uppercase text-grey-60 text-xs px-2 py-1">Slug</th>
+                                        </thead>
+                                        <tbody class="border-t border-grey-60">
+                                            <tr v-for="(entry, slug) in collection.entries">
+                                                <td class="px-2 py-1 w-4" :class="{ 'bg-yellow': entry.exists }">
+                                                    <input type="checkbox" v-model="entry._checked" id="c-@{{ collectionName }}-@{{ slug }}" />
+                                                    <label for="c-@{{ collectionName }}-@{{ slug }}"></label>
+                                                </td>
+                                                <td class="px-2 py-1 text-xs" :class="{ 'bg-yellow': entry.exists }">@{{ entry.slug }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
@@ -94,7 +100,7 @@
                             <div class="form-group">
                                 <div class="py-1.5 px-2 text-sm w-full rounded-md bg-yellow border border-yellow-dark mb-3" role="alert" v-if="hasDuplicates(taxonomy.terms)">
                                     Duplicate items found
-                                    <span class="text-xs ml-2">(<a @click.prevent="uncheckDuplicates(taxonomy.terms)" href="#" class="text-blue hover:underline">Uncheck duplicates</a>)</span>
+                                    <span class="text-xs ml-1">(<a @click.prevent="uncheckDuplicates(taxonomy.terms)" href="#" class="text-blue hover:underline">Uncheck duplicates</a>)</span>
                                 </div>
                                 <label>Terms</label>
                                 <p>
@@ -103,21 +109,24 @@
                                     <a href="#" @click.prevent="hideTaxonomy(taxonomyName)" v-else>Hide</a>
                                 </p>
 
-                                <table class="w-full mt-2 mb-4" v-if="shouldShowTaxonomy(taxonomyName)">
-                                    <thead>
-                                        <th class="text-left uppercase text-grey-60 text-xs px-2 py-1 w-4"></th>
-                                        <th class="text-left uppercase text-grey-60 text-xs px-2 py-1">Slug</th>
-                                    </thead>
-                                    <tbody class="border-t border-grey-60">
-                                        <tr v-for="(term, slug) in taxonomy.terms">
-                                            <td class="px-2 py-1 w-4" :class="{ 'bg-yellow': term.exists }">
-                                                <input type="checkbox" v-model="term._checked" id="t-@{{ taxonomyName }}-@{{ slug }}" />
-                                                <label for="t-@{{ taxonomyName }}-@{{ slug }}"></label>
-                                            </td>
-                                            <td class="px-2 py-1 text-xs" :class="{ 'bg-yellow': term.exists }">@{{ term.slug }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div v-show="shouldShowTaxonomy(taxonomyName)">
+                                    <a @click.prevent="uncheckAll(taxonomy.terms)" href="#" class="text-xs text-blue hover:underline">Uncheck all</a> / <a @click.prevent="checkAll(taxonomy.terms)" href="#" class="text-xs text-blue hover:underline">Check all</a>
+                                    <table class="w-full mt-2 mb-4">
+                                        <thead>
+                                            <th class="text-left uppercase text-grey-60 text-xs px-2 py-1 w-4"></th>
+                                            <th class="text-left uppercase text-grey-60 text-xs px-2 py-1">Slug</th>
+                                        </thead>
+                                        <tbody class="border-t border-grey-60">
+                                            <tr v-for="(term, slug) in taxonomy.terms">
+                                                <td class="px-2 py-1 w-4" :class="{ 'bg-yellow': term.exists }">
+                                                    <input type="checkbox" v-model="term._checked" id="t-@{{ taxonomyName }}-@{{ slug }}" />
+                                                    <label for="t-@{{ taxonomyName }}-@{{ slug }}"></label>
+                                                </td>
+                                                <td class="px-2 py-1 text-xs" :class="{ 'bg-yellow': term.exists }">@{{ term.slug }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 

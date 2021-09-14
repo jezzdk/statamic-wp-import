@@ -65,6 +65,32 @@ The summary will show you if anything was already found in your installation. If
 
 Done :)
 
+## Config
+
+The content of the config file looks like this:
+
+```
+<?php
+
+return [
+
+    /*
+     * Enable downloading of featured image. The default is 'true'.
+     */
+    'download_images' => true,
+
+    /*
+     * Filter out meta data keys prefixed with '_'. The default is 'true'.
+     */
+    'exclude_underscore_data' => true,
+
+];
+```
+
+You can publish it with the command:
+
+`php artisan vendor:publish --tag=statamic-wp-import`
+
 ## Known issues
 
 You might get timeout errors if you're importing large datasets and/or many images. In that case you might want to tweak the timeouts on your server or run the import locally.
