@@ -43,6 +43,8 @@ By the time you read this there might be others. Consult [the documentation](htt
 
 Only the featured image will be downloaded. Multiple featured images, images added with ACF and other plugins, are not downloaded. Featured images will be downloaded to the "assets" container into a folder called "imports/{collection_handle}", and saved on a field on the entry called "featured_image".
 
+You can use the events above to do your own downloading of images and what not. I have done this myself with great success 👍
+
 ## How to Install
 
 You can search for this addon in the `Tools > Addons` section of the Statamic control panel and click **install**, or run the following command from your project root:
