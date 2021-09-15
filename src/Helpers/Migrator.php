@@ -253,13 +253,18 @@ class Migrator
 
             $assetContainer = AssetContainer::findByHandle('assets');
 
-            $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}")
-                ->upload(
-                    new UploadedFile(
-                        Storage::path($tempFile),
-                        $originalImageName,
-                    )
-                );
+            $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}");
+
+            if ($asset->exists() && config('statamic-wp-import.overwrite_images')) {
+                $asset->delete();
+            }
+
+            $asset->upload(
+                new UploadedFile(
+                    Storage::path($tempFile),
+                    $originalImageName,
+                )
+            );
 
             $asset->save();
 
