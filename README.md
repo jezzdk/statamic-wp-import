@@ -80,6 +80,11 @@ return [
     'download_images' => true,
 
     /*
+     * Whether to skip download of an image if it already exist. The default is 'false'.
+     */
+    'skip_existing_images' => false,
+
+    /*
      * Enable image overwriting. When set to false, a new image are created with a timestamp suffix, if the image already exists. The default is 'false'.
      */
     'overwrite_images' => false,

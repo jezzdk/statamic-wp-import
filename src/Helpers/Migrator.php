@@ -103,7 +103,9 @@ class Migrator
                 $taxonomy = Taxonomy::make($taxonomy_slug);
             }
 
-            $taxonomy->data($taxonomy_data);
+            foreach ($taxonomy_data as $key => $value) {
+                $taxonomy->set($key, $value);
+            }
 
             $taxonomy->save();
         }
@@ -129,7 +131,11 @@ class Migrator
                     $term = Term::make($term_slug)->taxonomy($taxonomy_slug);
                 }
 
-                $term->data($term_data)->save();
+                foreach ($term_data as $key => $value) {
+                    $term->set($key, $value);
+                }
+
+                $term->save();
             }
         }
     }
@@ -177,9 +183,12 @@ class Migrator
                 }
 
                 $entry->date($meta['order']);
-                $entry->data(array_merge($meta['data'], [
-                    'slug' => $slug
-                ]));
+
+                array_set($meta, 'data.slug', $slug);
+
+                foreach ($meta['data'] as $key => $value) {
+                    $entry->set($key, $value);
+                }
 
                 if (config('statamic-wp-import.download_images')) {
                     $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection, $slug);
@@ -216,9 +225,11 @@ class Migrator
                 $page = Entry::make()->collection('pages')->slug($slug);
             }
 
-            $page->data(array_merge($meta['data'], [
-                'slug' => $slug
-            ]));
+            array_set($meta, 'data.slug', $slug);
+
+            foreach ($meta['data'] as $key => $value) {
+                $page->set($key, $value);
+            }
 
             if (config('statamic-wp-import.download_images')) {
                 $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages', $slug);
@@ -254,6 +265,10 @@ class Migrator
             $assetContainer = AssetContainer::findByHandle('assets');
 
             $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}");
+
+            if ($asset->exists() && config('statamic-wp-import.skip_existing_images')) {
+                return $asset;
+            }
 
             if ($asset->exists() && config('statamic-wp-import.overwrite_images')) {
                 $asset->delete();

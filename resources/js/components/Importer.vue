@@ -20,6 +20,10 @@ export default {
             showAllPages: false,
             showCollections: [],
             showTaxonomies: [],
+            counter: null,
+            hours: 0,
+            minutes: 0,
+            seconds: 0
         }
     },
 
@@ -55,6 +59,8 @@ export default {
 
             this.$progress.start('wp-import')
 
+            this.startTimer()
+
             fetch(cp_url('wp-import/import'), {
                 method: 'POST',
                 headers: {
@@ -77,6 +83,8 @@ export default {
                 }
 
                 this.$progress.complete('wp-import')
+
+                this.stopTimer()
 
                 return response.json();
             }).then((data) => {
@@ -190,6 +198,26 @@ export default {
             }
 
             return totalEntries
+        },
+
+        startTimer () {
+            this.minutes = this.checkSingleDigit(0)
+            this.seconds = this.checkSingleDigit(0)
+
+            this.counter = setInterval(() => {
+                const date = new Date(0, 0, 0, 0, 0, parseInt(this.seconds) + 1)
+                this.hours = date.getHours()
+                this.minutes = this.checkSingleDigit(date.getMinutes())
+                this.seconds = this.checkSingleDigit(date.getSeconds())
+            }, 1000)
+        },
+
+        stopTimer () {
+            clearInterval(this.counter)
+        },
+
+        checkSingleDigit (digit) {
+            return ('0' + digit).slice(-2)
         }
     }
 };

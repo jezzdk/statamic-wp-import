@@ -140,8 +140,17 @@
                     <div>
                         <div class="card mb-3">
                             <h2 class="mb-2">Importing</h2>
-                            <div class="loading loading-basic">
-                                <span class="icon icon-circular-graph animation-spin"></span> Please wait
+                            <div class="w-full flex justify-between items-center">
+                                <div class="loading loading-basic">
+                                    <span class="icon icon-circular-graph animation-spin"></span> Please wait
+                                </div>
+                                <div class="flex text-grey-50 text-sm">
+                                    <div v-show="hours > 0">@{{ hours }}</div>
+                                    <div v-show="hours > 0">:</div>
+                                    <div>@{{ minutes }}</div>
+                                    <div>:</div>
+                                    <div>@{{ seconds }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,7 +160,16 @@
                     <div>
                         <div class="card mb-3">
                             <h2 class="mb-2">Import complete</h2>
-                            <p>Import has completed</p>
+                            <div class="w-full flex justify-between items-center">
+                                <p>Import has completed</p>
+                                <div class="flex text-grey-50 text-sm">
+                                    <div v-show="hours > 0">@{{ hours }}</div>
+                                    <div v-show="hours > 0">:</div>
+                                    <div>@{{ minutes }}</div>
+                                    <div>:</div>
+                                    <div>@{{ seconds }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -160,7 +178,16 @@
                     <div>
                         <div class="card">
                             <h2 class="mb-2">Import failed</h2>
-                            <p>@{{ importError }}</p>
+                            <div class="w-full flex justify-between items-center">
+                                <p>@{{ importError }}</p>
+                                <div class="flex text-grey-50 text-sm">
+                                    <div v-show="hours > 0">@{{ hours }}</div>
+                                    <div v-show="hours > 0">:</div>
+                                    <div>@{{ minutes }}</div>
+                                    <div>:</div>
+                                    <div>@{{ seconds }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </template>
