@@ -3,6 +3,7 @@
 namespace Jezzdk\StatamicWpImport\Helpers;
 
 use Exception;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Assets\Asset;
 use Statamic\Facades\AssetContainer;
@@ -244,7 +245,8 @@ class Migrator
         }
 
         try {
-            $image = @file_get_contents($url);
+            $image = Http::retry(3, 500)->get($url)->body();
+
             $originalImageName = basename($url);
 
             Storage::put($tempFile = 'temp', $image);
@@ -263,6 +265,7 @@ class Migrator
 
             return $asset;
         } catch (Exception $e) {
+            logger('Image download failed: ' . $e->getMessage());
             return false;
         }
     }
