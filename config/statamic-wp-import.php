@@ -7,6 +7,11 @@ return [
      */
     'download_images' => true,
 
+    /**
+     * The name of the assets container where images should be downloaded.
+     */
+    'assets_container' => 'assets',
+
     /*
      * Whether to skip download of an image if it already exist. The default is 'false'.
      */

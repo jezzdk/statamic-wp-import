@@ -262,7 +262,7 @@ class Migrator
 
             Storage::put($tempFile = 'temp', $image);
 
-            $assetContainer = AssetContainer::findByHandle('assets');
+            $assetContainer = AssetContainer::findByHandle(config('statamic-wp-import.assets_container'));
 
             $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}");
 
