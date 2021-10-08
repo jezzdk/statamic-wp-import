@@ -205,7 +205,7 @@ export default {
             this.seconds = this.checkSingleDigit(0)
 
             this.counter = setInterval(() => {
-                const date = new Date(0, 0, 0, 0, 0, parseInt(this.seconds) + 1)
+                const date = new Date(0, 0, 0, parseInt(this.hours), parseInt(this.minutes), parseInt(this.seconds) + 1)
                 this.hours = date.getHours()
                 this.minutes = this.checkSingleDigit(date.getMinutes())
                 this.seconds = this.checkSingleDigit(date.getSeconds())

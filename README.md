@@ -41,7 +41,7 @@ By the time you read this there might be others. Consult [the documentation](htt
 
 ### A note regarding images
 
-Only the featured image will be downloaded. Multiple featured images, images added with ACF and other plugins, are not downloaded. Featured images will be downloaded to the "assets" container by default, into a folder called "{collection_handle}/{entry_slug}", and saved on a field on the entry called "featured_image".
+Only the featured image will be downloaded. Multiple featured images, images added with ACF and other plugins, are not downloaded. Featured images will be downloaded to the "assets" container by default (change in config), into a folder called "{collection_handle}/{entry_slug}", and saved on a field on the entry called "featured_image".
 
 You can use the events above to do your own downloading of images and what not. I have done this myself with great success 👍
 
