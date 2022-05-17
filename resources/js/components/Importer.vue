@@ -1,5 +1,4 @@
 <script>
-import _ from 'lodash';
 
 export default {
     props: {
@@ -99,7 +98,7 @@ export default {
         duplicateCount: function (items) {
             let count = 0;
 
-            _.each(items, (item) => {
+            items.forEach((item) => {
                 if (! item.exists) {
                     return;
                 }
@@ -111,7 +110,7 @@ export default {
         },
 
         uncheckDuplicates: function(items) {
-            _.each(items, (item) => {
+            items.forEach((item) => {
                 if (! item.exists) {
                     return;
                 }
@@ -121,49 +120,49 @@ export default {
         },
 
         uncheckAll: function(items) {
-            _.each(items, (item) => {
+            items.forEach((item) => {
                 item._checked = false;
             });
         },
 
         checkAll: function(items) {
-            _.each(items, (item) => {
+            items.forEach((item) => {
                 item._checked = true;
             });
         },
 
         size: function (obj) {
-            return _.size(obj);
+            return Object.keys(obj).length;
         },
 
         showCollection: function (collection) {
             this.showCollections.push(collection);
-            _.uniq(this.showCollections);
+            this.showCollections = [...new Set(this.showCollections)];
         },
 
         hideCollection: function (hidden) {
-            this.showCollections = _.reject(this.showCollections, function (c) {
-                return c === hidden;
-            })
+            this.showCollections = this.showCollections.filter((c) => {
+                return c !== hidden;
+            });
         },
 
         shouldShowCollection: function (collection) {
-            return _.includes(this.showCollections, collection);
+            return this.showCollections.includes(collection);
         },
 
         showTaxonomy: function (taxonomy) {
             this.showTaxonomies.push(taxonomy);
-            _.uniq(this.showTaxonomies);
+            this.showTaxonomies = [...new Set(this.showTaxonomies)];
         },
 
         hideTaxonomy: function (hidden) {
-            this.showTaxonomies = _.reject(this.showTaxonomies, function (t) {
-                return t === hidden;
-            })
+            this.showTaxonomies = this.showTaxonomies.filter((t) => {
+                return t !== hidden;
+            });
         },
 
         shouldShowTaxonomy: function (taxonomy) {
-            return _.includes(this.showTaxonomies, taxonomy);
+            return this.showTaxonomies.includes(taxonomy);
         },
 
         calculateTotalEntries: function () {
