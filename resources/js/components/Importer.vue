@@ -104,8 +104,10 @@ export default {
     duplicateCount: function (items) {
       let count = 0;
 
-      Object.keys(items).forEach((key) => {
-        if (!items[key].exists) {
+      if (!items || !Array.isArray(items)) return count;
+
+      items.forEach((item) => {
+        if (!item.exists) {
           return;
         }
 
@@ -116,24 +118,28 @@ export default {
     },
 
     uncheckDuplicates: function (items) {
-      Object.keys(items).forEach((key) => {
-        if (!items[key].exists) {
+      if (!items || !Array.isArray(items)) return;
+
+      items.forEach((item) => {
+        if (!item.exists) {
           return;
         }
 
-        items[key]._checked = false;
+        item._checked = false;
       });
     },
 
     uncheckAll: function (items) {
-      Object.keys(items).forEach((key) => {
-        items[key]._checked = false;
+      if (!items || !Array.isArray(items)) return;
+      items.forEach((item) => {
+        item._checked = false;
       });
     },
 
     checkAll: function (items) {
-      Object.keys(items).forEach((key) => {
-        items[key]._checked = true;
+      if (!items || !Array.isArray(items)) return;
+      items.forEach((item) => {
+        item._checked = true;
       });
     },
 
