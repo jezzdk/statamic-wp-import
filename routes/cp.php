@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Jezzdk\StatamicWpImport\Http\Controllers\ImportController;
 
 Route::group(['prefix' => 'wp-import'], function () {
-    Route::get('/', 'ImportController@index')->name('wp-import.index');
-    Route::post('/upload', 'ImportController@upload')->name('wp-import.upload');
-    Route::get('/summary', 'ImportController@summary')->name('wp-import.summary');
-    Route::post('/import', 'ImportController@import')->name('wp-import.import');
+    Route::get('/', [ImportController::class, 'index'])->name('wp-import.index');
+    Route::post('/upload', [ImportController::class, 'upload'])->name('wp-import.upload');
+    Route::get('/summary', [ImportController::class, 'summary'])->name('wp-import.summary');
+    Route::post('/import', [ImportController::class, 'import'])->name('wp-import.import');
 });
