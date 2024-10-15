@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Jezzdk\StatamicWpImport\Http\Controllers\ImportController;
+use RadPack\StatamicWpImport\Http\Controllers\ImportController;
 
 Route::group(['prefix' => 'wp-import'], function () {
     Route::get('/', [ImportController::class, 'index'])->name('wp-import.index');

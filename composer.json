@@ -1,8 +1,8 @@
 {
-    "name": "jezzdk/statamic-wp-import",
+    "name": "statamic-rad-pack/wp-import",
     "autoload": {
         "psr-4": {
-            "Jezzdk\\StatamicWpImport\\": "src"
+            "RadPack\\StatamicWpImport\\": "src"
         }
     },
     "authors": [
@@ -10,9 +10,6 @@
             "name": "Jess Stopa"
         }
     ],
-    "support": {
-        "email": "jess@stopa.dk"
-    },
     "extra": {
         "statamic": {
             "name": "Statamic WP Import",
@@ -20,7 +17,7 @@
         },
         "laravel": {
             "providers": [
-                "Jezzdk\\StatamicWpImport\\ServiceProvider"
+                "RadPack\\StatamicWpImport\\ServiceProvider"
             ]
         }
     }

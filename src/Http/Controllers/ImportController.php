@@ -1,17 +1,16 @@
 <?php
 
-namespace Jezzdk\StatamicWpImport\Http\Controllers;
+namespace RadPack\StatamicWpImport\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Jezzdk\StatamicWpImport\Helpers\WpImporter;
+use RadPack\StatamicWpImport\Helpers\WpImporter;
 
 class ImportController
 {
     public function index()
     {
-        return view('statamic-wp-import::upload');
+        return view('wp-import::upload');
     }
 
     public function upload(Request $request)
@@ -33,12 +32,12 @@ class ImportController
 
     public function summary()
     {
-        if (!$data = Cache::get('wp-import.statamic.prepared')) {
+        if (! $data = Cache::get('wp-import.statamic.prepared')) {
             return redirect()->to(cp_route('wp-import.index'));
         }
 
         return view('statamic-wp-import::summary', [
-            'summary' => $this->importer()->summary($data)
+            'summary' => $this->importer()->summary($data),
         ]);
     }
 
