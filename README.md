@@ -4,9 +4,10 @@
 
 Note: This addon works in conjunction with a [Wordpress plugin](https://github.com/jezzdk/wordpress-to-statamic-exporter).
 
-## Disclaimer
+## Note
 
-This is basically a port of the official import script in Statamic v2, that has been wangjangled to work with v3. The only difference is that this does not import settings as globals, but this addons also downloads featured images.
+This is a rough addon the Rad Pack inherited from @jezzdk. We're open to PRs and collaboration, though the Statamic Core Team is working on a different approach that might replace this in the near(ish) future.
+
 
 ## Features
 
