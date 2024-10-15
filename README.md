@@ -2,7 +2,7 @@
 
 > Statamic WP Import can import simple content from your WP site.
 
-Note: This addon works in conjunction with a [Wordpress plugin](https://github.com/jezzdk/wordpress-to-statamic-exporter).
+Note: This addon works in conjunction with a [WordPress plugin](https://github.com/jezzdk/wordpress-to-statamic-exporter).
 
 ## Note
 
@@ -58,7 +58,7 @@ composer require RadPack/statamic-wp-import
 
 ## How to Use
 
-First of all, you must export your data using the [Export to Statamic Wordpress Plugin](https://github.com/RadPack/wordpress-to-statamic-exporter). Check anything you wish to export, but have the notes above in mind.
+First of all, you must export your data using the [Export to Statamic Wordpress Plugin](https://github.com/statamic/wordpress-to-statamic-exporter). Check anything you wish to export, but have the notes above in mind.
 
 Go to the `Tools > WP Import` section and upload the json file.
 
