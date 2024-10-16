@@ -3,6 +3,7 @@
 namespace RadPack\StatamicWpImport\Helpers;
 
 use Statamic\Facades\URL;
+use Statamic\Support\Arr;
 use Statamic\Support\Str;
 
 class Preparer
@@ -85,7 +86,7 @@ class Preparer
             return;
         }
 
-        foreach (array_get($this->data, 'collections', []) as $name => $entries) {
+        foreach (Arr::get($this->data, 'collections', []) as $name => $entries) {
             $this->createCollection($name, $entries);
             $this->createEntries($name, $entries);
         }
@@ -161,7 +162,7 @@ class Preparer
             foreach ($value as $i => $slug) {
                 // Replace the slug with the ID. If it's not found for whatever reason,
                 // we'll just leave the slug as-is.
-                $value[$i] = array_get($this->migration['terms'][$field_name]->get($slug), 'id', $slug);
+                $value[$i] = Arr::get($this->migration['terms'][$field_name]->get($slug), 'id', $slug);
             }
 
             if ($is_string) {
