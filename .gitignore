@@ -2,3 +2,5 @@ node_modules
 vendor
 mix-manifest.json
 .DS_Store
+.idea
+composer.lock
