@@ -17,8 +17,11 @@ class ServiceProvider extends AddonServiceProvider
     {
         parent::boot();
 
-        $this->mergeConfigFrom(__DIR__.'/../config/statamic-wp-import.php', 'statamic-wp-import');
+        $this->loadViewsFrom(__DIR__.'/../resources/views/', 'wp-import');
+    }
 
+    public function bootAddon()
+    {
         Nav::extend(function ($nav) {
             $nav->tools('WP Import')
                 ->route('wp-import.index')
