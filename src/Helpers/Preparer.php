@@ -3,6 +3,7 @@
 namespace RadPack\StatamicWpImport\Helpers;
 
 use Statamic\Facades\URL;
+use Statamic\Support\Arr;
 use Statamic\Support\Str;
 
 class Preparer
@@ -15,7 +16,7 @@ class Preparer
     {
         $this->data = $data;
 
-        if (!isset($this->data['pages']) || !is_array($this->data['pages'])) {
+        if (! isset($this->data['pages']) || ! is_array($this->data['pages'])) {
             $this->data['pages'] = [];
         }
 
@@ -32,7 +33,7 @@ class Preparer
         $this->createTaxonomies();
         $this->createCollections();
 
-        if (config('wp-import.exclude_underscore_data')) {
+        if (config('statamic-wp-import.exclude_underscore_data')) {
             $this->filterMetaData();
         }
 
@@ -54,14 +55,14 @@ class Preparer
 
     private function createTaxonomies()
     {
-        if (!isset($this->data['taxonomies'])) {
+        if (! isset($this->data['taxonomies'])) {
             return;
         }
 
         foreach ($this->data['taxonomies'] as $taxonomy_name => $terms) {
             $this->migration['taxonomies']->put($taxonomy_name, [
                 'title' => Str::title($taxonomy_name),
-                'route' => '/' . $taxonomy_name . '/{slug}',
+                'route' => '/'.$taxonomy_name.'/{slug}',
             ]);
 
             $this->migration['terms']->put($taxonomy_name, collect());
@@ -81,11 +82,11 @@ class Preparer
 
     private function createCollections()
     {
-        if (!isset($this->data['collections'])) {
+        if (! isset($this->data['collections'])) {
             return;
         }
 
-        foreach (\Arr::get($this->data, 'collections', []) as $name => $entries) {
+        foreach (Arr::get($this->data, 'collections', []) as $name => $entries) {
             $this->createCollection($name, $entries);
             $this->createEntries($name, $entries);
         }
@@ -100,7 +101,7 @@ class Preparer
      */
     private function createCollection($collection, $entries)
     {
-        $route = '/' . $collection . '/{slug}';
+        $route = '/'.$collection.'/{slug}';
 
         $collection = str_replace('/', '-', $collection);
 
@@ -148,7 +149,7 @@ class Preparer
     private function replaceTaxonomies($data)
     {
         foreach ($data as $field_name => &$value) {
-            if (!$this->isTaxonomyField($field_name)) {
+            if (! $this->isTaxonomyField($field_name)) {
                 continue;
             }
 
@@ -161,7 +162,7 @@ class Preparer
             foreach ($value as $i => $slug) {
                 // Replace the slug with the ID. If it's not found for whatever reason,
                 // we'll just leave the slug as-is.
-                $value[$i] = \Arr::get($this->migration['terms'][$field_name]->get($slug), 'id', $slug);
+                $value[$i] = Arr::get($this->migration['terms'][$field_name]->get($slug), 'id', $slug);
             }
 
             if ($is_string) {

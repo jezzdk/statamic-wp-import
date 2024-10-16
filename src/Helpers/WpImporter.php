@@ -5,12 +5,13 @@ namespace RadPack\StatamicWpImport\Helpers;
 use Exception;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Term;
+use Statamic\Support\Arr;
 
 class WpImporter
 {
     public function prepare($data)
     {
-        if (!$data = json_decode($data, true)) {
+        if (! $data = json_decode($data, true)) {
             throw new Exception('Invalid export data format.');
         }
 
@@ -24,7 +25,7 @@ class WpImporter
         foreach ($prepared['pages'] as $page_url => $page) {
             $summary['pages'][$page_url] = [
                 'url' => $page_url,
-                'title' => \Arr::get($page['data'], 'title'),
+                'title' => Arr::get($page['data'], 'title'),
                 'exists' => (bool) Entry::findByUri($page_url),
                 '_checked' => true,
             ];
