@@ -5,6 +5,7 @@ namespace RadPack\StatamicWpImport\Helpers;
 use Exception;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Term;
+use Statamic\Support\Arr;
 
 class WpImporter
 {
@@ -24,7 +25,7 @@ class WpImporter
         foreach ($prepared['pages'] as $page_url => $page) {
             $summary['pages'][$page_url] = [
                 'url' => $page_url,
-                'title' => \Arr::get($page['data'], 'title'),
+                'title' => Arr::get($page['data'], 'title'),
                 'exists' => (bool) Entry::findByUri($page_url),
                 '_checked' => true,
             ];
