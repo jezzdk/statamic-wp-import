@@ -20,5 +20,8 @@
                 "RadPack\\StatamicWpImport\\ServiceProvider"
             ]
         }
+    },
+    "require": {
+        "laravel/pint": "^1.18"
     }
 }
