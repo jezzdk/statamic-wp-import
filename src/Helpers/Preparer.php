@@ -33,7 +33,7 @@ class Preparer
         $this->createTaxonomies();
         $this->createCollections();
 
-        if (config('wp-import.exclude_underscore_data')) {
+        if (config('statamic-wp-import.exclude_underscore_data')) {
             $this->filterMetaData();
         }
 

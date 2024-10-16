@@ -188,7 +188,7 @@ class Migrator
                     $entry->set($key, $value);
                 }
 
-                if (config('wp-import.download_images')) {
+                if (config('statamic-wp-import.download_images')) {
                     $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection, $slug);
 
                     if ($asset) {
@@ -229,7 +229,7 @@ class Migrator
                 $page->set($key, $value);
             }
 
-            if (config('wp-import.download_images')) {
+            if (config('statamic-wp-import.download_images')) {
                 $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages', $slug);
 
                 if ($asset) {
@@ -257,15 +257,15 @@ class Migrator
 
             Storage::put($tempFile = 'temp', $image);
 
-            $assetContainer = AssetContainer::findByHandle(config('wp-import.assets_container'));
+            $assetContainer = AssetContainer::findByHandle(config('statamic-wp-import.assets_container'));
 
             $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}");
 
-            if ($asset->exists() && config('wp-import.skip_existing_images')) {
+            if ($asset->exists() && config('statamic-wp-import.skip_existing_images')) {
                 return $asset;
             }
 
-            if ($asset->exists() && config('wp-import.overwrite_images')) {
+            if ($asset->exists() && config('statamic-wp-import.overwrite_images')) {
                 $asset->delete();
             }
 
