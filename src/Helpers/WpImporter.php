@@ -11,7 +11,7 @@ class WpImporter
 {
     public function prepare($data)
     {
-        if (!$data = json_decode($data, true)) {
+        if (! $data = json_decode($data, true)) {
             throw new Exception('Invalid export data format.');
         }
 

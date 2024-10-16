@@ -16,7 +16,7 @@ class Preparer
     {
         $this->data = $data;
 
-        if (!isset($this->data['pages']) || !is_array($this->data['pages'])) {
+        if (! isset($this->data['pages']) || ! is_array($this->data['pages'])) {
             $this->data['pages'] = [];
         }
 
@@ -55,14 +55,14 @@ class Preparer
 
     private function createTaxonomies()
     {
-        if (!isset($this->data['taxonomies'])) {
+        if (! isset($this->data['taxonomies'])) {
             return;
         }
 
         foreach ($this->data['taxonomies'] as $taxonomy_name => $terms) {
             $this->migration['taxonomies']->put($taxonomy_name, [
                 'title' => Str::title($taxonomy_name),
-                'route' => '/' . $taxonomy_name . '/{slug}',
+                'route' => '/'.$taxonomy_name.'/{slug}',
             ]);
 
             $this->migration['terms']->put($taxonomy_name, collect());
@@ -82,7 +82,7 @@ class Preparer
 
     private function createCollections()
     {
-        if (!isset($this->data['collections'])) {
+        if (! isset($this->data['collections'])) {
             return;
         }
 
@@ -101,7 +101,7 @@ class Preparer
      */
     private function createCollection($collection, $entries)
     {
-        $route = '/' . $collection . '/{slug}';
+        $route = '/'.$collection.'/{slug}';
 
         $collection = str_replace('/', '-', $collection);
 
@@ -149,7 +149,7 @@ class Preparer
     private function replaceTaxonomies($data)
     {
         foreach ($data as $field_name => &$value) {
-            if (!$this->isTaxonomyField($field_name)) {
+            if (! $this->isTaxonomyField($field_name)) {
                 continue;
             }
 
