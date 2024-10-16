@@ -17,6 +17,11 @@ class ServiceProvider extends AddonServiceProvider
     {
         parent::boot();
 
+        $this->loadViewsFrom(__DIR__.'/../resources/views/', 'wp-import');
+    }
+
+    public function bootAddon()
+    {
         Nav::extend(function ($nav) {
             $nav->tools('WP Import')
                 ->route('wp-import.index')

@@ -36,7 +36,7 @@ class ImportController
             return redirect()->to(cp_route('wp-import.index'));
         }
 
-        return view('statamic-wp-import::summary', [
+        return view('wp-import::summary', [
             'summary' => $this->importer()->summary($data),
         ]);
     }
