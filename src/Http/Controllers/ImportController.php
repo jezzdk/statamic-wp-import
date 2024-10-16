@@ -32,11 +32,11 @@ class ImportController
 
     public function summary()
     {
-        if (! $data = Cache::get('wp-import.statamic.prepared')) {
+        if (!$data = Cache::get('wp-import.statamic.prepared')) {
             return redirect()->to(cp_route('wp-import.index'));
         }
 
-        return view('statamic-wp-import::summary', [
+        return view('wp-import::summary', [
             'summary' => $this->importer()->summary($data),
         ]);
     }

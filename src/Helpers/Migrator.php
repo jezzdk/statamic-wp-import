@@ -96,7 +96,7 @@ class Migrator
         foreach (\Arr::get($this->migration, 'taxonomies', []) as $taxonomy_slug => $taxonomy_data) {
             $taxonomy = Taxonomy::findByHandle($taxonomy_slug);
 
-            if (! $taxonomy) {
+            if (!$taxonomy) {
                 $taxonomy = Taxonomy::make($taxonomy_slug);
             }
 
@@ -118,13 +118,13 @@ class Migrator
         foreach (\Arr::get($this->migration, 'terms', []) as $taxonomy_slug => $terms) {
             foreach ($terms as $term_slug => $term_data) {
                 // Skip if this term was not checked in the summary.
-                if (! $this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['_checked']) {
+                if (!$this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['_checked']) {
                     continue;
                 }
 
                 $term = Term::findBySlug($term_slug, $taxonomy_slug);
 
-                if (! $term) {
+                if (!$term) {
                     $term = Term::make($term_slug)->taxonomy($taxonomy_slug);
                 }
 
@@ -147,7 +147,7 @@ class Migrator
         foreach (\Arr::get($this->migration, 'collections', []) as $handle => $data) {
             $collection = Collection::findByHandle($handle);
 
-            if (! $collection) {
+            if (!$collection) {
                 $collection = Collection::make($handle);
             }
 
@@ -169,13 +169,13 @@ class Migrator
         foreach ($this->migration['entries'] as $collection => $entries) {
             foreach ($entries as $slug => $meta) {
                 // Skip if this entry was not checked in the summary.
-                if (! $this->summary['collections'][$collection]['entries'][$slug]['_checked']) {
+                if (!$this->summary['collections'][$collection]['entries'][$slug]['_checked']) {
                     continue;
                 }
 
                 $entry = Entry::query()->where('collection', $collection)->where('slug', $slug)->first();
 
-                if (! $entry) {
+                if (!$entry) {
                     $entry = Entry::make()->collection($collection)->slug($slug);
                 }
 
@@ -187,7 +187,7 @@ class Migrator
                     $entry->set($key, $value);
                 }
 
-                if (config('statamic-wp-import.download_images')) {
+                if (config('wp-import.download_images')) {
                     $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', $collection, $slug);
 
                     if ($asset) {
@@ -209,7 +209,7 @@ class Migrator
     {
         foreach ($this->migration['pages'] as $url => $meta) {
             // Skip if this page was not checked in the summary.
-            if (! $this->summary['pages'][$url]['_checked']) {
+            if (!$this->summary['pages'][$url]['_checked']) {
                 continue;
             }
 
@@ -218,7 +218,7 @@ class Migrator
 
             $page = Entry::query()->where('collection', 'pages')->where('slug', $slug)->first();
 
-            if (! $page) {
+            if (!$page) {
                 $page = Entry::make()->collection('pages')->slug($slug);
             }
 
@@ -228,7 +228,7 @@ class Migrator
                 $page->set($key, $value);
             }
 
-            if (config('statamic-wp-import.download_images')) {
+            if (config('wp-import.download_images')) {
                 $asset = $this->downloadAsset($meta['data']['featured_image_url'] ?? '', 'pages', $slug);
 
                 if ($asset) {
@@ -245,7 +245,7 @@ class Migrator
      */
     private function downloadAsset(?string $url, string $collection, string $slug): Asset|bool
     {
-        if (! $url) {
+        if (!$url) {
             return false;
         }
 
@@ -256,15 +256,15 @@ class Migrator
 
             Storage::put($tempFile = 'temp', $image);
 
-            $assetContainer = AssetContainer::findByHandle(config('statamic-wp-import.assets_container'));
+            $assetContainer = AssetContainer::findByHandle(config('wp-import.assets_container'));
 
             $asset = $assetContainer->makeAsset("{$collection}/{$slug}/{$originalImageName}");
 
-            if ($asset->exists() && config('statamic-wp-import.skip_existing_images')) {
+            if ($asset->exists() && config('wp-import.skip_existing_images')) {
                 return $asset;
             }
 
-            if ($asset->exists() && config('statamic-wp-import.overwrite_images')) {
+            if ($asset->exists() && config('wp-import.overwrite_images')) {
                 $asset->delete();
             }
 
@@ -279,7 +279,7 @@ class Migrator
 
             return $asset;
         } catch (Exception $e) {
-            logger('Image download failed: '.$e->getMessage());
+            logger('Image download failed: ' . $e->getMessage());
 
             return false;
         }
