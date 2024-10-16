@@ -59,7 +59,7 @@ class Migrator
     {
         $migration['pages'] = collect(
             $this->sortDeepest(
-                array_get($migration, 'pages', [])->all()
+                \Arr::get($migration, 'pages', [])->all()
             )
         );
 
@@ -93,7 +93,7 @@ class Migrator
      */
     private function createTaxonomies()
     {
-        foreach (array_get($this->migration, 'taxonomies', []) as $taxonomy_slug => $taxonomy_data) {
+        foreach (\Arr::get($this->migration, 'taxonomies', []) as $taxonomy_slug => $taxonomy_data) {
             $taxonomy = Taxonomy::findByHandle($taxonomy_slug);
 
             if (! $taxonomy) {
@@ -115,7 +115,7 @@ class Migrator
      */
     private function createTaxonomyTerms()
     {
-        foreach (array_get($this->migration, 'terms', []) as $taxonomy_slug => $terms) {
+        foreach (\Arr::get($this->migration, 'terms', []) as $taxonomy_slug => $terms) {
             foreach ($terms as $term_slug => $term_data) {
                 // Skip if this term was not checked in the summary.
                 if (! $this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['_checked']) {
@@ -144,7 +144,7 @@ class Migrator
      */
     private function createCollections()
     {
-        foreach (array_get($this->migration, 'collections', []) as $handle => $data) {
+        foreach (\Arr::get($this->migration, 'collections', []) as $handle => $data) {
             $collection = Collection::findByHandle($handle);
 
             if (! $collection) {
@@ -181,7 +181,7 @@ class Migrator
 
                 $entry->date($meta['order']);
 
-                array_set($meta, 'data.slug', $slug);
+                \Arr::set($meta, 'data.slug', $slug);
 
                 foreach ($meta['data'] as $key => $value) {
                     $entry->set($key, $value);
@@ -222,7 +222,7 @@ class Migrator
                 $page = Entry::make()->collection('pages')->slug($slug);
             }
 
-            array_set($meta, 'data.slug', $slug);
+            \Arr::set($meta, 'data.slug', $slug);
 
             foreach ($meta['data'] as $key => $value) {
                 $page->set($key, $value);
