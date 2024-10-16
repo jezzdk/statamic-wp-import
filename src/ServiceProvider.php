@@ -17,6 +17,8 @@ class ServiceProvider extends AddonServiceProvider
     {
         parent::boot();
 
+        $this->mergeConfigFrom(__DIR__.'/../config/shopify-wp-import.php', 'statamic-wp-import');
+
         Nav::extend(function ($nav) {
             $nav->tools('WP Import')
                 ->route('wp-import.index')
