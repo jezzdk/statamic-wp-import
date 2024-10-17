@@ -14,6 +14,7 @@ use Statamic\Facades\Taxonomy;
 use Statamic\Facades\Term;
 use Statamic\Support\Arr;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 class Migrator
 {
@@ -98,11 +99,7 @@ class Migrator
             $taxonomy = Taxonomy::findByHandle($taxonomy_slug);
 
             if (! $taxonomy) {
-                $taxonomy = Taxonomy::make($taxonomy_slug);
-            }
-
-            foreach ($taxonomy_data as $key => $value) {
-                $taxonomy->set($key, $value);
+                $taxonomy = Taxonomy::make($taxonomy_slug)->title($taxonomy_data['title']);
             }
 
             $taxonomy->save();
@@ -122,18 +119,18 @@ class Migrator
                 if (! $this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['_checked']) {
                     continue;
                 }
+    
+                try {
+                    $term = Term::query()->where('taxonomy', $taxonomy_slug)->where('slug', $term_slug)->first();
+    
+                    if (! $term) {
+                        $term = Term::make()->taxonomy($taxonomy_slug)->slug($term_slug);
+                    }
 
-                $term = Term::findBySlug($term_slug, $taxonomy_slug);
-
-                if (! $term) {
-                    $term = Term::make($term_slug)->taxonomy($taxonomy_slug);
+                    $term->save();
+                } catch (\Exception $e) {
+                    Log::error("Error saving term {$term_slug} in taxonomy {$taxonomy_slug}: " . $e->getMessage());
                 }
-
-                foreach ($term_data as $key => $value) {
-                    $term->set($key, $value);
-                }
-
-                $term->save();
             }
         }
     }

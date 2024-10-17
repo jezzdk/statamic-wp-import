@@ -61,7 +61,7 @@ class WpImporter
             foreach ($terms as $slug => $term) {
                 $taxonomy_terms[$slug] = [
                     'slug' => $slug,
-                    'exists' => (bool) Term::query()->where('taxonomy', $taxonomy)->where('slug', $slug)->first(),
+                    'exists' => (bool) Term::query()->where('taxonomy', $taxonomy)->where('slug', $slug),
                     '_checked' => true,
                 ];
             }
