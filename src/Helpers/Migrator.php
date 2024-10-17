@@ -126,7 +126,7 @@ class Migrator
                     continue;
                 }
 
-                $term = Term::make()->taxonomy($taxonomy_slug)->slug($term_slug)->set('title', "$taxonomy_slug");
+                $term = Term::make()->taxonomy($taxonomy_slug)->slug($term_slug)->set('title', $term_data['title']);
 
                 $term->save();
             }
