@@ -115,22 +115,20 @@ class Migrator
     {
         foreach (Arr::get($this->migration, 'terms', []) as $taxonomy_slug => $terms) {
             foreach ($terms as $term_slug => $term_data) {
+
                 // Skip if this term was not checked in the summary.
                 if (! $this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['_checked']) {
                     continue;
                 }
-    
-                try {
-                    $term = Term::query()->where('taxonomy', $taxonomy_slug)->where('slug', $term_slug)->first();
-    
-                    if (! $term) {
-                        $term = Term::make()->taxonomy($taxonomy_slug)->slug($term_slug);
-                    }
 
-                    $term->save();
-                } catch (\Exception $e) {
-                    Log::error("Error saving term {$term_slug} in taxonomy {$taxonomy_slug}: " . $e->getMessage());
+                // Skip term creation if this term already exists.
+                if ($this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['exists'] === true) {
+                    continue;
                 }
+
+                $term = Term::make()->taxonomy($taxonomy_slug)->slug($term_slug)->set('title', "$taxonomy_slug");
+
+                $term->save();
             }
         }
     }
