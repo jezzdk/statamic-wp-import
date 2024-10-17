@@ -98,11 +98,7 @@ class Migrator
             $taxonomy = Taxonomy::findByHandle($taxonomy_slug);
 
             if (! $taxonomy) {
-                $taxonomy = Taxonomy::make($taxonomy_slug);
-            }
-
-            foreach ($taxonomy_data as $key => $value) {
-                $taxonomy->set($key, $value);
+                $taxonomy = Taxonomy::make($taxonomy_slug)->title($taxonomy_data['title']);
             }
 
             $taxonomy->save();
@@ -118,20 +114,18 @@ class Migrator
     {
         foreach (Arr::get($this->migration, 'terms', []) as $taxonomy_slug => $terms) {
             foreach ($terms as $term_slug => $term_data) {
+
                 // Skip if this term was not checked in the summary.
                 if (! $this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['_checked']) {
                     continue;
                 }
 
-                $term = Term::findBySlug($term_slug, $taxonomy_slug);
-
-                if (! $term) {
-                    $term = Term::make($term_slug)->taxonomy($taxonomy_slug);
+                // Skip term creation if this term already exists.
+                if ($this->summary['taxonomies'][$taxonomy_slug]['terms'][$term_slug]['exists'] === true) {
+                    continue;
                 }
 
-                foreach ($term_data as $key => $value) {
-                    $term->set($key, $value);
-                }
+                $term = Term::make()->taxonomy($taxonomy_slug)->slug($term_slug)->set('title', $term_data['title']);
 
                 $term->save();
             }

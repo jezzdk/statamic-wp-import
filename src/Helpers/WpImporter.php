@@ -5,6 +5,7 @@ namespace RadPack\StatamicWpImport\Helpers;
 use Exception;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Term;
+use Statamic\Facades\Taxonomy;
 use Statamic\Support\Arr;
 
 class WpImporter
@@ -59,9 +60,12 @@ class WpImporter
             $taxonomy_terms = [];
 
             foreach ($terms as $slug => $term) {
+
+                $exists = Taxonomy::find($slug) ? true : false;
+
                 $taxonomy_terms[$slug] = [
                     'slug' => $slug,
-                    'exists' => (bool) Term::query()->where('taxonomy', $taxonomy)->where('slug', $slug)->first(),
+                    'exists' => $exists,
                     '_checked' => true,
                 ];
             }
