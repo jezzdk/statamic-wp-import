@@ -14,7 +14,6 @@ use Statamic\Facades\Taxonomy;
 use Statamic\Facades\Term;
 use Statamic\Support\Arr;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Illuminate\Support\Facades\Log;
 
 class Migrator
 {
